@@ -1,0 +1,8 @@
+dotnet tool update --global dotnet-ef
+
+Scaffold-DbContext "Data Source=.;Initial Catalog=MudEngine;Integrated Security=SSPI;MultipleActiveResultSets=True;TrustServerCertificate=true" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Seeding\Models -Force
+
+Add-Migration InitialCreate -Context MudEngineContext -OutputDir Seeding\Migrations
+
+Update-Database -Context MudEngineContext
+

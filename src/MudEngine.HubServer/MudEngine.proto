@@ -1,0 +1,51 @@
+﻿syntax = "proto3";
+option csharp_namespace = "MudEngine.Proto";
+
+service MudEngineMessageService {
+	rpc ClientMessages (stream ClientRequestMessage) returns (stream ClientResponseMessage) {}
+	rpc CommandMessages (stream CommandResponseMessageList) returns (stream CommandRequestMessage) {}
+	rpc ControlMessages (stream ControlMessage) returns (stream ControlMessage) {}
+}
+
+enum ClientMessageType {
+	SYSTEM = 0;
+	USER = 1;
+	GMCP = 2;
+	MSSP = 3;
+}
+
+message ClientRequestMessage {
+	ClientMessageType type = 1;
+	string text = 2;
+}
+
+message ClientResponseMessage {
+	ClientMessageType type = 1;
+	string text = 2;
+}
+
+enum ControlMessageType {
+	REGISTER = 0;
+	REGISTERED = 1;
+	BAN_IP = 2;
+	UN_BAN_IP = 3;
+}
+
+message ControlMessage {
+	ControlMessageType type = 1;
+	string text = 2;
+}
+
+message CommandRequestMessage {
+	string cid = 1;
+	ClientRequestMessage message = 2;
+}
+
+message CommandResponseMessage {
+	string cid = 1;
+	ClientResponseMessage message = 2;
+}
+
+message CommandResponseMessageList {
+	repeated CommandResponseMessage response_messages = 1;
+}

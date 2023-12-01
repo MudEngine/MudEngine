@@ -1,0 +1,14 @@
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddUserSecrets(System.Reflection.Assembly.GetExecutingAssembly(), true)
+            .Build();
+        var connectionString =
+            configuration.GetConnectionString("MudEngine")
+            ?? "Data Source=.;Initial Catalog=MudEngine;Integrated Security=SSPI;MultipleActiveResultSets=True;TrustServerCertificate=true";
+        options.UseSqlServer(connectionString);
+        base.OnConfiguring(options);
+    }
+
+
+    , t=> t.IsMemoryOptimized());

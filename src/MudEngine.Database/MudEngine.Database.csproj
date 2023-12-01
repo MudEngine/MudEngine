@@ -1,0 +1,107 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    <UserSecretsId>101a828f-d823-4b5e-890f-19eb69b6bda5</UserSecretsId>
+    <StartupObject>MudEngine.Database.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Seeding\Configuration\DatabaseConfiguration.sql" />
+    <None Remove="Seeding\Data\Mud\Mud.sql" />
+    <None Remove="Seeding\Data\SystemCommand.sql" />
+    <None Remove="Seeding\StoredProcedures\Delete_Entity.sql" />
+    <None Remove="Seeding\StoredProcedures\Mud\FindLocalEntity.sql" />
+    <None Remove="Seeding\StoredProcedures\Mud\GetEntityDetails.sql" />
+    <None Remove="Seeding\StoredProcedures\Mud\GetPlayerAliases.sql" />
+    <None Remove="Seeding\StoredProcedures\Mud\GetRoomExits.sql" />
+    <None Remove="Seeding\StoredProcedures\Mud\SetPlayerRoom.sql" />
+    <None Remove="Seeding\StoredProcedures\System\AddConnectionCommandList.sql" />
+    <None Remove="Seeding\StoredProcedures\System\CreateAccount.sql" />
+    <None Remove="Seeding\StoredProcedures\System\CreatePlayer.sql" />
+    <None Remove="Seeding\StoredProcedures\System\GetAccountForLogin.sql" />
+    <None Remove="Seeding\StoredProcedures\System\GetCommandByListAndAlias.sql" />
+    <None Remove="Seeding\StoredProcedures\System\GetConnectionPlayer.sql" />
+    <None Remove="Seeding\StoredProcedures\System\GetConnectionVariable.sql" />
+    <None Remove="Seeding\StoredProcedures\System\GetMudByName.sql" />
+    <None Remove="Seeding\StoredProcedures\System\OnDisconnect.sql" />
+    <None Remove="Seeding\StoredProcedures\System\OnNewConnection.sql" />
+    <None Remove="Seeding\StoredProcedures\System\OnStartup.sql" />
+    <None Remove="Seeding\StoredProcedures\System\OnUserCommand.sql" />
+    <None Remove="Seeding\StoredProcedures\System\RemoveConnectionCommandList.sql" />
+    <None Remove="Seeding\StoredProcedures\System\SetConnectionAccount.sql" />
+    <None Remove="Seeding\StoredProcedures\System\SetConnectionPlayer.sql" />
+    <None Remove="Seeding\StoredProcedures\System\UpsertCommandAssembly.sql" />
+    <None Remove="Seeding\StoredProcedures\System\UpsertCommandList.sql" />
+    <None Remove="Seeding\StoredProcedures\System\UpsertCommandListAssembly.sql" />
+    <None Remove="Seeding\StoredProcedures\System\UpsertConnectionVariable.sql" />
+    <None Remove="Seeding\StoredProcedures\System\UpsertRoom.sql" />
+    <None Remove="Seeding\StoredProcedures\System\UpsertZone.sql" />
+    <None Remove="Seeding\StoredProcedures\System_MSSP.sql" />
+    <None Remove="Seeding\StoredProcedures\Upsert_Mud.sql" />
+    <None Remove="Seeding\Triggers\TRG_Entity_OnDelete.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Seeding\Configuration\DatabaseConfiguration.sql" />
+    <EmbeddedResource Include="Seeding\Data\Mud\Mud.sql" />
+    <EmbeddedResource Include="Seeding\Data\System\Commands.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Mud\FindLocalEntity.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetPlayerAliases.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetRoomExits.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetEntityDetails.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Mud\SetPlayerRoom.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Transient\RemoveConnectionCommandList.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Transient\AddConnectionCommandList.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\CreateAccount.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\DeleteEntity.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\GetAccountForLogin.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Transient\GetConnectionPlayer.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\GetMudByName.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\OnDisconnect.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Transient\GetConnectionVariable.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\OnStartup.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\GetCommandByListAndAlias.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\OnUserCommand.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\OnNewConnection.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\GetMSSP.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Transient\SetConnectionPlayer.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Transient\SetConnectionAccount.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Transient\UpsertConnectionVariable.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\UpsertCommandListAssembly.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\UpsertCommandAssembly.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\UpsertCommandList.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\UpsertRoom.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\CreatePlayer.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\UpsertZone.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\System\UpsertMud.sql" />
+    <EmbeddedResource Include="Seeding\Triggers\Mud\TRG_Entity_OnDelete.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Seeding\Models\" />
+    <Folder Include="Seeding\Migrations\" />
+  </ItemGroup>
+</Project>
