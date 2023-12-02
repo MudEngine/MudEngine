@@ -1,6 +1,7 @@
 CREATE OR ALTER PROCEDURE [Mud].[FindLocalEntity]
 	@EntityId int,
-	@SearchText varchar(78)
+	@SearchText varchar(78),
+	@Index int
 AS
 BEGIN
 	SET NOCOUNT ON
@@ -11,5 +12,5 @@ BEGIN
 	SELECT [EntityId], [Name] FROM [Mud].[Entity] e WITH (NOLOCK) WHERE [ParentEntityId]=@ParentEntityId AND PatIndex('%' + e.[Name] + '%', @SearchText) >  0 AND [InActive]=0
 	INSERT INTO @Entities ([EntityId], [Name]) 
 	SELECT [EntityId], [Name] FROM [Mud].[Entity] e WITH (NOLOCK) WHERE [ParentEntityId]=@EntityId AND PatIndex('%' + e.[Name] + '%', @SearchText) >  0 AND [InActive]=0
-	SELECT TOP 1 [EntityId] FROM @Entities ORDER BY [RowId]
+	SELECT [EntityId] FROM @Entities WHERE [RowId]=@Index
 END

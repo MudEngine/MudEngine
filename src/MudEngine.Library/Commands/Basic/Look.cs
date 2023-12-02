@@ -14,15 +14,26 @@ public class Look : BaseCommand, ICommand
             arguments = arguments[3..];
         }
         var player = ThisPlayer();
-        var entityId = arguments switch
+        int entityId;
+        switch (arguments)
         {
-            "me" => player.EntityId,
-            "" => player.RoomId,
-            "around" => player.RoomId,
-            "here" => player.RoomId,
-            "room" => player.RoomId,
-            _ => FindLocalEntity(player.EntityId, arguments)
-        };
+            case "me":
+                entityId = player.EntityId;
+                break;
+            case "":
+            case "around":
+            case "here":
+            case "room":
+                entityId = player.RoomId;
+                break;
+            default:
+                var partsOfSpeech = GetPartsOfSpeech(arguments)
+                    .Where(s => s.Type is "NN" or "PRP") 
+                    .ToList();
+                    var subject = partsOfSpeech.First();
+                    entityId = FindLocalEntity(player.EntityId, subject.Token!, subject.Index);
+                break;
+        }
         if (entityId <= 0)
         {
             AddMessage("Look at what?[CR]");
@@ -85,7 +96,6 @@ public class Look : BaseCommand, ICommand
                     AddMessage($"{entityDetails.Description}[CR]");
                 }
                 break;
-
         }
         return Response;
     }

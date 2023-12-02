@@ -6,6 +6,7 @@ namespace MudEngine.Library.System;
 
 public abstract class BaseCommand
 {
+    private static PartOfSpeechHandler? _posHandler;
     private string _arguments = null!;
     private string _command = null!;
     private string _commandLine = null!;
@@ -110,7 +111,7 @@ public abstract class BaseCommand
         _arguments = _commandLine.Contains(' ') ? _commandLine[(_commandLine.IndexOf(' ') + 1)..] : string.Empty;
         return Response;
     }
-    protected int FindLocalEntity(int entityId, string searchText)
+    protected int FindLocalEntity(int entityId, string searchText, int index = 1)
     {
         if (entityId == 0 || string.IsNullOrWhiteSpace(searchText) || searchText.Length > 78)
         {
@@ -119,7 +120,8 @@ public abstract class BaseCommand
         return _databaseRepository.FindLocalEntity(new FindLocalEntityRequestDto
         {
             EntityId = entityId,
-            SearchText = searchText
+            SearchText = searchText,
+            Index = index
         }, _token).GetAwaiter().GetResult();
     }
     protected static string FormatArray(string[] array)
@@ -132,6 +134,11 @@ public abstract class BaseCommand
             _ => string.Join(", ", array.Take(array.Length - 1))
                  + " and " + array.Last() + "."
         };
+    }
+    protected static IEnumerable<PartOfSpeech> GetPartsOfSpeech(string arguments)
+    {
+        _posHandler ??= new PartOfSpeechHandler();
+        return _posHandler.GetPartsOfSpeech(arguments);
     }
     protected GetEntityDetailsResponseDto GetEntityDetails(int entityId)
     {
