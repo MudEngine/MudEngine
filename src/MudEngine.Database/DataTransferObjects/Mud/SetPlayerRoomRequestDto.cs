@@ -1,8 +1,7 @@
-﻿namespace MudEngine.Database.DataTransferObjects.Mud
+﻿namespace MudEngine.Database.DataTransferObjects.Mud;
+
+public class SetPlayerRoomRequestDto
 {
-    public class SetPlayerRoomRequestDto
-    {
-        public int PlayerId { get; set; }
-        public int DestinationRoomId { get; set; }
-    }
+    public int PlayerId { get; set; }
+    public int DestinationRoomId { get; set; }
 }
