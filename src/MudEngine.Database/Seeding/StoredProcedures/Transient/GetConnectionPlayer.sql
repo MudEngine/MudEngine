@@ -3,7 +3,7 @@ CREATE OR ALTER PROCEDURE [Transient].[GetConnectionPlayer]
 AS
 BEGIN
 	SET NOCOUNT ON
-	SELECT TOP 1 e.[EntityId], e.[Name], e.[ParentEntityId] AS [RoomId]
+	SELECT TOP 1 [ConnectionId], e.[EntityId], e.[Name], e.[ParentEntityId] AS [RoomId]
 	FROM [Transient].[Connection] c WITH (NOLOCK) 
 	INNER JOIN [Mud].[Entity] e WITH (NOLOCK) ON c.[PlayerId]=e.[EntityId]
 	WHERE [ConnectionId]=@ConnectionId

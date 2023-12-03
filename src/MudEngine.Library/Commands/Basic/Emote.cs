@@ -1,8 +1,8 @@
 ﻿using MudEngine.Library.System;
 namespace MudEngine.Library.Commands.Basic;
 
-[Command("9d992665-662d-4730-9943-e89557ff946f")]
-public class Say : BaseCommand, ICommand
+[Command("a211ca5b-aeef-461f-95fd-63bb3993e5a7")]
+public class Emote : BaseCommand, ICommand
 {
     public override CommandResponse Execute(CommandRequest Request)
     {
@@ -18,9 +18,9 @@ public class Say : BaseCommand, ICommand
         }
         var player = ThisPlayer();
         var room = GetEntityDetails(player.RoomId);
-        var say = "\"" + arguments[..1].ToUpper() + arguments[1..] + "\"[CR]";
-        AddMessage("You say, " + say);
-        AddMessage(player.Name! + " says, " + say, room.Entities, player);
+        var emote = player.Name! + " " + arguments + "[CR]";
+        AddMessage("You emote: " + emote);
+        AddMessage(emote, room.Entities, player);
         return Response;
     }
 }

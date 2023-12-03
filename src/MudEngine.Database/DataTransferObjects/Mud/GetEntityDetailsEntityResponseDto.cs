@@ -1,12 +1,10 @@
-﻿using MudEngine.Database.DataTransferObjects.Enums.Enum;
+﻿using MudEngine.Database.DataTransferObjects.Base;
+using MudEngine.Database.DataTransferObjects.Enums.Enum;
 namespace MudEngine.Database.DataTransferObjects.Mud;
 
-public class GetEntityDetailsEntityResponseDto
+public class GetEntityDetailsEntityResponseDto : EntityDto
 {
-    public int EntityId { get; set; }
     public int EntityTypeId { get; set; }
     public EntityType EntityType => (EntityType) EntityTypeId;
-    public string? Name { get; set; }
     public bool IsLiving { get; set; }
-    public Guid ConnectionId { get; set; }
 }

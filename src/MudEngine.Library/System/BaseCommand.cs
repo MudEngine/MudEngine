@@ -1,4 +1,5 @@
-﻿using MudEngine.Database.DataTransferObjects.Mud;
+﻿using MudEngine.Database.DataTransferObjects.Base;
+using MudEngine.Database.DataTransferObjects.Mud;
 using MudEngine.Database.DataTransferObjects.System;
 using MudEngine.Database.DataTransferObjects.Transient;
 using MudEngine.Database.Interfaces;
@@ -51,6 +52,13 @@ public abstract class BaseCommand
     {
         AddMessage(_connectionId, ClientMessageType.User, text);
     }
+    protected void AddMessage(string text, IEnumerable<EntityDto> entities, EntityDto exception)
+    {
+        foreach(var entity in entities.Where(e=>e.EntityId != exception.EntityId))
+        {
+            AddMessage(entity.ConnectionId, ClientMessageType.User, text);
+        }
+    }
     private void AddMessage(Guid connectionId, ClientMessageType messageType, string text)
     {
         var responseMessage = Response.ResponseMessages.FirstOrDefault(rm =>
@@ -80,6 +88,10 @@ public abstract class BaseCommand
             return;
         }
         Response.FollowOnCommands.Add(new FollowOnCommand(commandId, _connectionId, commandLine ?? string.Empty));
+    }
+    protected string Arguments()
+    {
+        return _arguments;
     }
     protected string Command()
     {
@@ -255,7 +267,7 @@ public abstract class BaseCommand
             DestinationRoomId = destinationRoomId
         }, _token).GetAwaiter().GetResult();
     }
-    protected GetConnectionPlayerResponseDto ThisPlayer()
+    protected PlayerDto ThisPlayer()
     {
         return _databaseRepository.GetConnectionPlayer(_connectionId, _token).GetAwaiter().GetResult();
     }
