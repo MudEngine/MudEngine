@@ -156,7 +156,9 @@ public abstract class BaseCommand
         _corpus ??= new Corpus();
         var subjectId = 0;
         var partsOfSpeech = Tagger.Tag(_corpus, arguments)
-            .Where(s => !s.Token!.Equals("IN") && !s.Token!.Equals("DT"))
+            .Where(s => !s.Type!.Equals("IN")
+                        && !s.Type!.Equals("DT")
+                        && !s.Type!.Equals("JJ"))
             .ToList();
         var searchText = partsOfSpeech.Count > 0
             ? string.Join(' ', partsOfSpeech.Select(s => s.Token))
