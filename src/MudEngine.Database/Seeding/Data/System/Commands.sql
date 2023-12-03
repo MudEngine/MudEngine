@@ -4,6 +4,7 @@ exec [System].[UpsertCommandAssembly] @CommandAssemblyId='20b61361-c4e3-425f-b50
 exec [System].[UpsertCommandAssembly] @CommandAssemblyId='baa4ad89-36f7-4928-a59a-8ae620ec6564', @Preload=1 -- Unknown
 exec [System].[UpsertCommandAssembly] @CommandAssemblyId='fc8b6041-ba8a-4c99-97f7-b01495eff307', @Preload=1 -- Look
 exec [System].[UpsertCommandAssembly] @CommandAssemblyId='9d992665-662d-4730-9943-e89557ff946f', @Preload=1 -- Say
+exec [System].[UpsertCommandAssembly] @CommandAssemblyId='a211ca5b-aeef-461f-95fd-63bb3993e5a7', @Preload=1 -- Emote
 exec [System].[UpsertCommandList] @Name='New Connections', @Priority=0
 exec [System].[UpsertCommandListAssembly] @Name='New Connections', @CommandAssemblyId='20b61361-c4e3-425f-b50b-dcb4cd06c463', @PrimaryAlias='quit'
 exec [System].[UpsertCommandListAssembly] @Name='New Connections', @CommandAssemblyId='93c8ce1f-60bb-4a1c-9d38-fc8abea4756b', @PrimaryAlias='login', @HandlesUnknown=1
@@ -13,5 +14,6 @@ exec [System].[UpsertCommandList] @Name='Basic', @Priority=0
 exec [System].[UpsertCommandListAssembly] @Name='Basic', @CommandAssemblyId='11ca3b8b-62d1-4811-ae6c-f6cd812c8e2c', @PrimaryAlias='motd'
 exec [System].[UpsertCommandListAssembly] @Name='Basic', @CommandAssemblyId='fc8b6041-ba8a-4c99-97f7-b01495eff307', @PrimaryAlias='look'
 exec [System].[UpsertCommandListAssembly] @Name='Basic', @CommandAssemblyId='9d992665-662d-4730-9943-e89557ff946f', @PrimaryAlias='say'
+exec [System].[UpsertCommandListAssembly] @Name='Basic', @CommandAssemblyId='a211ca5b-aeef-461f-95fd-63bb3993e5a7', @PrimaryAlias='emote'
 exec [System].[UpsertCommandListAssembly] @Name='Basic', @CommandAssemblyId='20b61361-c4e3-425f-b50b-dcb4cd06c463', @PrimaryAlias='quit'
 exec [System].[UpsertCommandListAssembly] @Name='Basic', @CommandAssemblyId='baa4ad89-36f7-4928-a59a-8ae620ec6564', @PrimaryAlias='unknown', @HandlesUnknown=1

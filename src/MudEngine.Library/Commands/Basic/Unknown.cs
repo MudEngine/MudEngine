@@ -11,6 +11,16 @@ public class Unknown : BaseCommand, ICommand
         {
             return Response;
         }
+        if (Request.CommandLine.StartsWith('\"'))
+        {
+            AddUserCommand("say " + Request.CommandLine[1..].Trim());
+            return Response;
+        }
+        if (Request.CommandLine.StartsWith(':'))
+        {
+            AddUserCommand("emote " + Request.CommandLine[1..].Trim());
+            return Response;
+        }
         var player = ThisPlayer();
         var exits = GetRoomExits(player.RoomId);
         var validExit = exits.FirstOrDefault(e =>

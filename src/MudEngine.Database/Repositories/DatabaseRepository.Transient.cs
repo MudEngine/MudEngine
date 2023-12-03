@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using Dapper;
+using MudEngine.Database.DataTransferObjects.Base;
 using MudEngine.Database.DataTransferObjects.Transient;
 namespace MudEngine.Database.Repositories;
 
@@ -31,25 +32,25 @@ public partial class DatabaseRepository
             return -1;
         }
     }
-    public async Task<GetConnectionPlayerResponseDto> GetConnectionPlayer(Guid connectionId,
+    public async Task<PlayerDto> GetConnectionPlayer(Guid connectionId,
         CancellationToken cancellationToken = default)
     {
         try
         {
             using var connection = connectionFactory.Invoke();
             connection.Open();
-            return (await connection.QueryAsync<GetConnectionPlayerResponseDto>(
+            return (await connection.QueryAsync<PlayerDto>(
                         new CommandDefinition("[Transient].[GetConnectionPlayer]",
                             new { connectionId },
                             commandType: CommandType.StoredProcedure,
                             cancellationToken: cancellationToken))
                     .ConfigureAwait(false))
-                .FirstOrDefault() ?? new GetConnectionPlayerResponseDto();
+                .FirstOrDefault() ?? new PlayerDto();
         }
         catch (Exception e)
         {
             logger.LogError(e, "GetConnectionPlayer");
-            return new GetConnectionPlayerResponseDto();
+            return new PlayerDto();
         }
     }
     public async Task<string> GetConnectionVariable(GetVariableRequestDto connectionVariableRequestDto,
