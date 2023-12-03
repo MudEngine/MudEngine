@@ -8,32 +8,7 @@ public class Look : BaseCommand, ICommand
     public override CommandResponse Execute(CommandRequest Request)
     {
         base.Execute(Request);
-        var arguments = Arguments().ToLower();
-        if (arguments.StartsWith("at "))
-        {
-            arguments = arguments[3..];
-        }
-        var player = ThisPlayer();
-        int entityId;
-        switch (arguments)
-        {
-            case "me":
-                entityId = player.EntityId;
-                break;
-            case "":
-            case "around":
-            case "here":
-            case "room":
-                entityId = player.RoomId;
-                break;
-            default:
-                var partsOfSpeech = GetPartsOfSpeech(arguments)
-                    .Where(s => s.Type is "NN" or "PRP") 
-                    .ToList();
-                    var subject = partsOfSpeech.First();
-                    entityId = FindLocalEntity(player.EntityId, subject.Token!, subject.Index);
-                break;
-        }
+        var entityId = IdentifySubject();
         if (entityId <= 0)
         {
             AddMessage("Look at what?[CR]");
