@@ -22,30 +22,34 @@ public class PartOfSpeechHandler
                 var tags = _posTagger.Tag(tokens);
                 if (tags.Length >= tokens.Length)
                 {
-                    var lastTag = false;
+                    var lastTag = string.Empty;
                     for (var index = 0; index < tags.Length; index++)
                     {
                         var tag = tags[index];
                         if (tag.StartsWith('N'))
                         {
-                            if (lastTag)
+                            if (tag == lastTag)
                             {
                                 partsOfSpeech[^1].Token += " " + tokens[index];
                             }
                             else
                             {
-                                partsOfSpeech.Add(new PartOfSpeech(tokens[index], 1, "NN"));
+                                partsOfSpeech.Add(new PartOfSpeech(tokens[index], 1, tag));
                             }
-                            lastTag = true;
+                            lastTag = tag;
                             continue;
                         }
-                        if (tag.Equals("CD") && lastTag && int.TryParse(tokens[index], out var cardinal))
+                        if (tag.Equals("CD"))
                         {
-                            partsOfSpeech[^1].Index = cardinal;
+                            if (lastTag.StartsWith('N')
+                                && int.TryParse(tokens[index], out var cardinal))
+                            {
+                                partsOfSpeech[^1].Index = cardinal;
+                            }
                             continue;
                         }
                         partsOfSpeech.Add(new PartOfSpeech(tokens[index], 1, tag));
-                        lastTag = false;
+                        lastTag = tag;
                     }
                 }
             }

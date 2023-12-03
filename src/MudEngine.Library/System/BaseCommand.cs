@@ -80,10 +80,6 @@ public abstract class BaseCommand
         }
         Response.FollowOnCommands.Add(new FollowOnCommand(commandId, _connectionId, commandLine ?? string.Empty));
     }
-    protected string Arguments()
-    {
-        return _arguments;
-    }
     protected string Command()
     {
         return _command;
@@ -111,7 +107,7 @@ public abstract class BaseCommand
         _arguments = _commandLine.Contains(' ') ? _commandLine[(_commandLine.IndexOf(' ') + 1)..] : string.Empty;
         return Response;
     }
-    protected int FindLocalEntity(int entityId, string searchText, int index = 1)
+    private int FindLocalEntity(int entityId, string searchText, int index = 1)
     {
         if (entityId == 0 || string.IsNullOrWhiteSpace(searchText) || searchText.Length > 78)
         {
@@ -135,11 +131,6 @@ public abstract class BaseCommand
                  + " and " + array.Last() + "."
         };
     }
-    protected static IEnumerable<PartOfSpeech> GetPartsOfSpeech(string arguments)
-    {
-        _posHandler ??= new PartOfSpeechHandler();
-        return _posHandler.GetPartsOfSpeech(arguments);
-    }
     protected GetEntityDetailsResponseDto GetEntityDetails(int entityId)
     {
         return entityId == 0
@@ -153,6 +144,46 @@ public abstract class BaseCommand
     protected IEnumerable<GetRoomExitsResponseDto> GetRoomExits(int roomId)
     {
         return _databaseRepository.GetRoomExits(roomId, _token).GetAwaiter().GetResult();
+    }
+    protected int IdentifySubject()
+    {
+        var player = ThisPlayer();
+        return IdentifySubject(player.EntityId, player.RoomId, _arguments);
+    }
+    private int IdentifySubject(int entityId, int roomId, string arguments)
+    {
+        var subjectId = 0;
+        _posHandler ??= new PartOfSpeechHandler();
+        var partsOfSpeech = _posHandler.GetPartsOfSpeech(arguments)
+            .Where(s => !s.Token!.Equals("IN") && !s.Token!.Equals("DT"))
+            .ToList();
+        var searchText = partsOfSpeech.Count > 0
+            ? string.Join(' ', partsOfSpeech.Select(s => s.Token))
+            : arguments;
+        switch (searchText.ToLower())
+        {
+            case "me":
+                subjectId = entityId;
+                break;
+            case "":
+            case "around":
+            case "here":
+            case "place":
+            case "room":
+                subjectId = roomId;
+                break;
+            default:
+                var subjects = partsOfSpeech
+                    .Where(s => s.Type.StartsWith('N'))
+                    .ToList();
+                if (subjects.Count > 0)
+                {
+                    var subject = subjects.First();
+                    subjectId = FindLocalEntity(entityId, subject.Token!, subject.Index);
+                }
+                break;
+        }
+        return subjectId;
     }
     protected GetMudByNameResponseDto Mud(string mudName = "")
     {
