@@ -2,11 +2,12 @@
 using MudEngine.Database.DataTransferObjects.System;
 using MudEngine.Database.DataTransferObjects.Transient;
 using MudEngine.Database.Interfaces;
+using MudEngine.Library.System.PartOfSpeechTagging;
 namespace MudEngine.Library.System;
 
 public abstract class BaseCommand
 {
-    private static PartOfSpeechHandler? _posHandler;
+    private static Corpus? _corpus;
     private string _arguments = null!;
     private string _command = null!;
     private string _commandLine = null!;
@@ -152,9 +153,9 @@ public abstract class BaseCommand
     }
     private int IdentifySubject(int entityId, int roomId, string arguments)
     {
+        _corpus ??= new Corpus();
         var subjectId = 0;
-        _posHandler ??= new PartOfSpeechHandler();
-        var partsOfSpeech = _posHandler.GetPartsOfSpeech(arguments)
+        var partsOfSpeech = Tagger.Tag(_corpus, arguments)
             .Where(s => !s.Token!.Equals("IN") && !s.Token!.Equals("DT"))
             .ToList();
         var searchText = partsOfSpeech.Count > 0
@@ -174,7 +175,7 @@ public abstract class BaseCommand
                 break;
             default:
                 var subjects = partsOfSpeech
-                    .Where(s => s.Type.StartsWith('N'))
+                    .Where(s => s.Type!.StartsWith('N'))
                     .ToList();
                 if (subjects.Count > 0)
                 {
