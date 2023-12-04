@@ -13,18 +13,18 @@ public class Unknown : BaseCommand, ICommand
         }
         if (Request.CommandLine.StartsWith('\"'))
         {
-            AddUserCommand("say " + Request.CommandLine[1..].Trim());
+            AddUserCommand($"say {Request.CommandLine[1..].Trim()}");
             return Response;
         }
         if (Request.CommandLine.StartsWith(':'))
         {
-            AddUserCommand("emote " + Request.CommandLine[1..].Trim());
+            AddUserCommand($"emote {Request.CommandLine[1..].Trim()}");
             return Response;
         }
         var player = ThisPlayer();
         var exits = GetRoomExits(player.RoomId);
         var validExit = exits.FirstOrDefault(e =>
-            e.PrimaryAlias!.Equals(Request.CommandLine, StringComparison.InvariantCultureIgnoreCase));
+            e.PrimaryAlias!.Equals(Request.CommandLine, StringComparison.OrdinalIgnoreCase));
         if (validExit is not null)
         {
             AddFollowOnCommand("System", "move", validExit.PrimaryAlias);
@@ -32,7 +32,7 @@ public class Unknown : BaseCommand, ICommand
         }
         var aliases = GetPlayerAliases(player.EntityId).ToList();
         var alias = aliases.FirstOrDefault(e =>
-            e.Alias!.Equals(Request.CommandLine, StringComparison.InvariantCultureIgnoreCase));
+            e.Alias!.Equals(Request.CommandLine, StringComparison.OrdinalIgnoreCase));
         if (alias is not null)
         {
             AddUserCommand(alias.Replacement);
@@ -43,27 +43,12 @@ public class Unknown : BaseCommand, ICommand
         if (alias is not null)
         {
             AddUserCommand(Request.CommandLine.Replace(alias.Alias!, alias.Replacement ?? string.Empty,
-                StringComparison.InvariantCultureIgnoreCase));
+                StringComparison.OrdinalIgnoreCase));
             return Response;
         }
-        switch (Command().ToLower())
-        {
-            case "east":
-            case "northeast":
-            case "north":
-            case "northwest":
-            case "west":
-            case "southwest":
-            case "south":
-            case "southeast":
-            case "in":
-            case "out":
-                AddMessage("You can't go that way.[CR]");
-                break;
-            default:
-                AddMessage("Unknown command.[CR]");
-                break;
-        }
+        AddMessage(IsDirection(Command()) 
+            ? "You can't go that way.[CR]" 
+            : "Unknown command.[CR]");
         return Response;
     }
 }

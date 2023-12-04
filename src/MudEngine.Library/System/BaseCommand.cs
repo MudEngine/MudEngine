@@ -48,19 +48,35 @@ public abstract class BaseCommand
         }
         Response.FollowOnCommands.Add(new FollowOnCommand(commandId, _connectionId, commandLine ?? string.Empty));
     }
+    protected void AddMessage(string text, EntityDto target)
+    {
+        AddMessage(target.ConnectionId, ClientMessageType.User, text);
+    }
     protected void AddMessage(string text)
     {
         AddMessage(_connectionId, ClientMessageType.User, text);
     }
+    protected void AddMessage(string text, IEnumerable<EntityDto> entities, IEnumerable<EntityDto> exceptions)
+    {
+        foreach (var connectionId in entities.Select(e=>e.ConnectionId)
+                     .Except(exceptions.Select(e=>e.ConnectionId)))
+        {
+            AddMessage(connectionId, ClientMessageType.User, text);
+        }
+    }
     protected void AddMessage(string text, IEnumerable<EntityDto> entities, EntityDto exception)
     {
-        foreach(var entity in entities.Where(e=>e.EntityId != exception.EntityId))
+        foreach (var entity in entities.Where(e => e.EntityId != exception.EntityId))
         {
             AddMessage(entity.ConnectionId, ClientMessageType.User, text);
         }
     }
     private void AddMessage(Guid connectionId, ClientMessageType messageType, string text)
     {
+        if(connectionId == Guid.Empty)
+        {
+            return;
+        }
         var responseMessage = Response.ResponseMessages.FirstOrDefault(rm =>
             rm.ConnectionId == connectionId && rm.MessageType == messageType);
         if (responseMessage is null)
@@ -120,7 +136,11 @@ public abstract class BaseCommand
         _arguments = _commandLine.Contains(' ') ? _commandLine[(_commandLine.IndexOf(' ') + 1)..] : string.Empty;
         return Response;
     }
-    private int FindLocalEntity(int entityId, string searchText, int index = 1)
+    protected int FindLocalEntity(int entityId, string searchText)
+    {
+        return FindLocalEntity(entityId, searchText, 1);
+    }
+    private int FindLocalEntity(int entityId, string searchText, int index)
     {
         if (entityId == 0 || string.IsNullOrWhiteSpace(searchText) || searchText.Length > 78)
         {
@@ -150,9 +170,17 @@ public abstract class BaseCommand
             ? new GetEntityDetailsResponseDto()
             : _databaseRepository.GetEntityDetails(entityId, _token).GetAwaiter().GetResult();
     }
+    protected IEnumerable<EntityDto> GetLivingInRoom(PlayerDto entity)
+    {
+        return _databaseRepository.GetLivingInRoom(entity.RoomId, _token).GetAwaiter().GetResult();
+    }
     protected IEnumerable<GetPlayerAliasesResponseDto> GetPlayerAliases(int playerId)
     {
         return _databaseRepository.GetPlayerAliases(playerId, _token).GetAwaiter().GetResult();
+    }
+    protected PlayerDto GetPlayerByName(string playerName)
+    {
+        return _databaseRepository.GetPlayerByName(playerName, _token).GetAwaiter().GetResult();
     }
     protected IEnumerable<GetRoomExitsResponseDto> GetRoomExits(int roomId)
     {
@@ -199,6 +227,23 @@ public abstract class BaseCommand
                 break;
         }
         return subjectId;
+    }
+    protected static bool IsDirection(string text)
+    {
+        return text.ToLower() switch
+        {
+            "east" => true,
+            "northeast" => true,
+            "north" => true,
+            "northwest" => true,
+            "west" => true,
+            "southwest" => true,
+            "south" => true,
+            "southeast" => true,
+            "in" => true,
+            "out" => true,
+            _ => false
+        };
     }
     protected GetMudByNameResponseDto Mud(string mudName = "")
     {

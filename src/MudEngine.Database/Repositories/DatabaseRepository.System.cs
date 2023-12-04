@@ -133,6 +133,28 @@ public partial class DatabaseRepository
             return Guid.Empty;
         }
     }
+    public async Task<int> OnStartup(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var connection = connectionFactory.Invoke();
+            connection.Open();
+            var parameters = new DynamicParameters();
+            parameters.Add("@ReturnCode", dbType: DbType.Int32, direction: ParameterDirection.ReturnValue);
+            _ = await connection.ExecuteScalarAsync(
+                    new CommandDefinition("[System].[OnStartup]",
+                        parameters,
+                        commandType: CommandType.StoredProcedure,
+                        cancellationToken: cancellationToken))
+                .ConfigureAwait(false);
+            return parameters.Get<int>("@ReturnCode");
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "OnStartup");
+            return -1;
+        }
+    }
     public async Task<Guid> OnUserCommand(CommandRequestDto commandRequestDto,
         CancellationToken cancellationToken = default)
     {

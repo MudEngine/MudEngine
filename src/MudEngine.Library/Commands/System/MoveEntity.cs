@@ -13,7 +13,7 @@ public class MoveEntity : BaseCommand, ICommand
         }
         var player = ThisPlayer();
         var exits = GetRoomExits(player.RoomId);
-        var validExit = exits.FirstOrDefault(e => e.PrimaryAlias!.Equals(Request.CommandLine, StringComparison.InvariantCultureIgnoreCase));
+        var validExit = exits.FirstOrDefault(e => e.PrimaryAlias!.Equals(Request.CommandLine, StringComparison.OrdinalIgnoreCase));
         if (validExit is null)
         {
             return Response;

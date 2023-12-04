@@ -10,7 +10,7 @@ public class MessageOfTheDay : BaseCommand, ICommand
         var mud = Mud();
         if (!string.IsNullOrWhiteSpace(mud.MessageOfTheDay))
         {
-            AddMessage(mud.MessageOfTheDay + "[CR]");
+            AddMessage($"{mud.MessageOfTheDay}[CR]");
         }
         return Response;
     }

@@ -9,5 +9,6 @@ public partial interface IDatabaseRepository
     Task<GetMudByNameResponseDto> GetMudByName(string mudName, CancellationToken cancellationToken = default);
     Task<int> OnDisconnect(Guid connectionId, CancellationToken cancellationToken = default);
     Task<Guid> OnNewConnection(OnNewConnectionRequestDto onNewConnectionRequestDto, CancellationToken cancellationToken = default);
+    Task<int> OnStartup(CancellationToken cancellationToken = default);
     Task<Guid> OnUserCommand(CommandRequestDto commandRequestDto, CancellationToken cancellationToken = default);
 }
