@@ -10,10 +10,10 @@ Since version 2.1 of ASP.Net Core, it has been possible to configure Kestrel as 
 
 Scalable inter-process communication (seperating the MUD itself from the Telnet/Command servers) is handled via [gRPC duplex streaming](https://learn.microsoft.com/en-us/aspnet/core/grpc/interprocess "gRPC duplex streaming").
 
-The Command Server accesses data stored in SQL Server 2022+, thus making use of [Parameter Sensitive Plan Optimization](https://www.sqlservercentral.com/articles/exploring-parameter-sensitive-plan-optimization-in-sql-server-2022 "Parameter Sensitive Plan Optimization").
-
-Commands can be compiled using the [Roslyn compiler](https://github.com/dotnet/roslyn "Roslyn compiler"), and executed as [collectible assemblies](https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/collectible-assemblies "collectible assemblies") in a [secured AssemblyLoadContext](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext "Secured AssemblyLoadContext") during runtime.
+The Command Server accesses data stored in SQL Server 2022+, thus making use of [Parameter Sensitive Plan Optimization](https://www.sqlservercentral.com/articles/exploring-parameter-sensitive-plan-optimization-in-sql-server-2022 "Parameter Sensitive Plan Optimization"). Commands can be compiled using the [Roslyn compiler](https://github.com/dotnet/roslyn "Roslyn compiler"), and executed as [collectible assemblies](https://learn.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/collectible-assemblies "collectible assemblies") in a [secured AssemblyLoadContext](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext "Secured AssemblyLoadContext") during runtime. 
 
 Supported protocols (so far) include [GMCP and MSSP](https://wiki.mudlet.org/w/Manual:Supported_Protocols#Encoding_in_Mudlet "GMCP and MSSP"), and have been tested against [Mudlet](https://www.mudlet.org/ "Mudlet") and [zMud](https://www.zuggsoft.com/ "zMUD").
 
 The Telnet Server accepts UTF-8 I/O, but the input stream is Folded into Ascii-7 at the Hub Server using FormD -> FormC Normalization via [Runes](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeraterunes "Runes") - a more nuanced version of grapheme clustering similar to Lucene's [AsciiFoldingFilter](https://gist.githubusercontent.com/andyraddatz/e6a396fb91856174d4e3f1bf2e10951c/raw/c241ed4eabb53b3f4cd2c4f594dc90f1518db1e7/ASCIIStringExtensions.cs "AsciiFoldingFilter").
+
+Basic Natural Language Processing has been added by using [Penn Treebank Project](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html "Penn Treebank Project") part-of-speech tags.
