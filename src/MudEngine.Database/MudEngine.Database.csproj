@@ -14,7 +14,9 @@
     <None Remove="Seeding\StoredProcedures\Delete_Entity.sql" />
     <None Remove="Seeding\StoredProcedures\Mud\FindLocalEntity.sql" />
     <None Remove="Seeding\StoredProcedures\Mud\GetEntityDetails.sql" />
+    <None Remove="Seeding\StoredProcedures\Mud\GetLivingInRoom.sql" />
     <None Remove="Seeding\StoredProcedures\Mud\GetPlayerAliases.sql" />
+    <None Remove="Seeding\StoredProcedures\Mud\GetPlayerByName.sql" />
     <None Remove="Seeding\StoredProcedures\Mud\GetRoomExits.sql" />
     <None Remove="Seeding\StoredProcedures\Mud\SetPlayerRoom.sql" />
     <None Remove="Seeding\StoredProcedures\System\AddConnectionCommandList.sql" />
@@ -47,6 +49,8 @@
     <EmbeddedResource Include="Seeding\Data\Mud\Mud.sql" />
     <EmbeddedResource Include="Seeding\Data\System\Commands.sql" />
     <EmbeddedResource Include="Seeding\StoredProcedures\Mud\FindLocalEntity.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetPlayerByName.sql" />
+    <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetLivingInRoom.sql" />
     <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetPlayerAliases.sql" />
     <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetRoomExits.sql" />
     <EmbeddedResource Include="Seeding\StoredProcedures\Mud\GetEntityDetails.sql" />

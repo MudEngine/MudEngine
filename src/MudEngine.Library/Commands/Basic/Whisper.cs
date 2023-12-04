@@ -2,8 +2,8 @@
 using MudEngine.Library.System;
 namespace MudEngine.Library.Commands.Basic;
 
-[Command("9d992665-662d-4730-9943-e89557ff946f")]
-public class Say : BaseCommand, ICommand
+[Command("a8b4ecd9-2c84-4a81-9c85-0b7458c24e26")]
+public class Whisper : BaseCommand, ICommand
 {
     public override CommandResponse Execute(CommandRequest Request)
     {
@@ -11,7 +11,7 @@ public class Say : BaseCommand, ICommand
         var arguments = Arguments().Trim();
         if (string.IsNullOrWhiteSpace(arguments))
         {
-            AddMessage("You have nothing to say![CR]");
+            AddMessage("You have nothing to whisper![CR]");
             return Response;
         }
         var player = ThisPlayer();
@@ -26,22 +26,18 @@ public class Say : BaseCommand, ICommand
                 arguments = arguments[..arguments.LastIndexOf(" to ", StringComparison.OrdinalIgnoreCase)];
             }
         }
+        if (target is null)
+        {
+            AddMessage("Whisper to who?[CR]");
+            return Response;
+        }
         if (!char.IsPunctuation(arguments[^1]))
         {
             arguments += ".";
         }
-        var say = "\"" + arguments[..1].ToUpper() + arguments[1..] + "\"";
-        if(target is null)
-        {
-            AddMessage("You say, " + say + "[CR]");
-            AddMessage(player.Name! + " says, " + say + "[CR]", GetLivingInRoom(player), player);
-        }
-        else
-        {
-            AddMessage($"You say, {say} to {target.Name}.[CR]");
-            AddMessage($"{player.Name!} says, {say} to you.[CR]", target);
-            AddMessage($"{player.Name!} says, {say} to {target.Name}.[CR]", GetLivingInRoom(player), new[] {player, target});
-        }
+        var whisper = $"\"{arguments[..1].ToUpper()}{arguments[1..]}\"";
+        AddMessage($"You whisper, {whisper} to {target.Name}.[CR]");
+        AddMessage($"{player.Name!} whispers, {whisper} to you.[CR]", target);
         return Response;
     }
 }

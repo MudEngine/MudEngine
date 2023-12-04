@@ -104,6 +104,8 @@ public class CommandEngine(ILogger<CommandEngine> _logger,
                     }
                     if (message.Text.StartsWith("OnStartup"))
                     {
+                        _ = await _databaseRepository.OnStartup(token)
+                            .ConfigureAwait(false);
                         messageList.ResponseMessages.Add(new CommandResponseMessage
                         {
                             Cid = string.Empty,

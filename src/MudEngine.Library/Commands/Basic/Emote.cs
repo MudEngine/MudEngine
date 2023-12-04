@@ -18,8 +18,8 @@ public class Emote : BaseCommand, ICommand
         }
         var player = ThisPlayer();
         var room = GetEntityDetails(player.RoomId);
-        var emote = player.Name! + " " + arguments + "[CR]";
-        AddMessage("You emote: " + emote);
+        var emote = $"{player.Name!} {arguments}[CR]";
+        AddMessage($"You emote: {emote}");
         AddMessage(emote, room.Entities, player);
         return Response;
     }

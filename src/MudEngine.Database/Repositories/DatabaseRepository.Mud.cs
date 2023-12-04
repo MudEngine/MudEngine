@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using Dapper;
+using MudEngine.Database.DataTransferObjects.Base;
 using MudEngine.Database.DataTransferObjects.Mud;
 namespace MudEngine.Database.Repositories;
 
@@ -57,6 +58,25 @@ public partial class DatabaseRepository
             return new GetEntityDetailsResponseDto();
         }
     }
+    public async Task<IEnumerable<EntityDto>> GetLivingInRoom(int roomId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var connection = connectionFactory.Invoke();
+            connection.Open();
+            return await connection.QueryAsync<EntityDto>(
+                    new CommandDefinition("[Mud].[GetLivingInRoom]",
+                        new { roomId },
+                        commandType: CommandType.StoredProcedure,
+                        cancellationToken: cancellationToken))
+                .ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "GetLivingInRoom");
+            return new List<EntityDto>();
+        }
+    }
     public async Task<IEnumerable<GetPlayerAliasesResponseDto>> GetPlayerAliases(int playerId, CancellationToken cancellationToken = default)
     {
         try
@@ -74,6 +94,25 @@ public partial class DatabaseRepository
         {
             logger.LogError(e, "GetRoomExits");
             return new List<GetPlayerAliasesResponseDto>();
+        }
+    }
+    public async Task<PlayerDto> GetPlayerByName(string playerName, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            using var connection = connectionFactory.Invoke();
+            connection.Open();
+            return (await connection.QueryAsync<PlayerDto>(
+                    new CommandDefinition("[Mud].[GetPlayerByName]",
+                        new { playerName },
+                        commandType: CommandType.StoredProcedure,
+                        cancellationToken: cancellationToken))
+                .ConfigureAwait(false)).FirstOrDefault() ?? new PlayerDto();
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "GetEntityDetails");
+            return new PlayerDto();
         }
     }
     public async Task<IEnumerable<GetRoomExitsResponseDto>> GetRoomExits(int roomId, CancellationToken cancellationToken = default)
