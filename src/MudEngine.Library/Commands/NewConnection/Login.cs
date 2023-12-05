@@ -54,7 +54,7 @@ public class Login : BaseCommand, ICommand
                         SetConnectionPlayer(players.First().EntityId);
                         RemoveCommandList("New Connections");
                         AddCommandList("Basic");
-                        AddFollowOnCommand("Basic", "motd", "motd");
+                        AddFollowOnCommand("Basic", "news", "news");
                         AddFollowOnCommand("Basic", "look", "look here");
                     }
                 }

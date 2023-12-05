@@ -11,7 +11,7 @@ public partial class Mud
 
     public string? LoginScreen { get; set; }
 
-    public string? MessageOfTheDay { get; set; }
+    public string? News { get; set; }
 
     public virtual Entity Entity { get; set; } = null!;
 }

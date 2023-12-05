@@ -269,7 +269,7 @@ public partial class MudEngineContext : DbContext
 
             entity.Property(e => e.EntityId).ValueGeneratedNever();
             entity.Property(e => e.LoginScreen).IsUnicode(false);
-            entity.Property(e => e.MessageOfTheDay).IsUnicode(false);
+            entity.Property(e => e.News).IsUnicode(false);
 
             entity.HasOne(d => d.Entity).WithOne(p => p.Mud)
                 .HasForeignKey<Mud>(d => d.EntityId)

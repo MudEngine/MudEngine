@@ -350,7 +350,7 @@ namespace MudEngine.Database.Seeding.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<string>("MessageOfTheDay")
+                    b.Property<string>("News")
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 

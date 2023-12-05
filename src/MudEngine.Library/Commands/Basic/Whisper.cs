@@ -20,11 +20,22 @@ public class Whisper : BaseCommand, ICommand
         {
             var possibleTarget = arguments[(arguments.LastIndexOf(" to ", StringComparison.OrdinalIgnoreCase) + 3)..];
             var targetId = FindLocalEntity(player.EntityId, possibleTarget);
-            if(targetId > 0)
+            if (targetId > 0)
             {
                 target = GetEntityDetails(targetId);
                 arguments = arguments[..arguments.LastIndexOf(" to ", StringComparison.OrdinalIgnoreCase)];
             }
+        }
+        if (target is null && arguments.Contains(' '))
+        {
+            var possibleTarget = arguments[..arguments.IndexOf(' ')];
+            arguments = arguments[(arguments.IndexOf(' ') + 1)..].Trim();
+            target = GetPlayerByName(possibleTarget);
+        }
+        if (string.IsNullOrWhiteSpace(arguments))
+        {
+            AddMessage("You have nothing to whisper![CR]");
+            return Response;
         }
         if (target is null)
         {
@@ -37,7 +48,7 @@ public class Whisper : BaseCommand, ICommand
         }
         var whisper = $"\"{arguments[..1].ToUpper()}{arguments[1..]}\"";
         AddMessage($"You whisper, {whisper} to {target.Name}.[CR]");
-        AddMessage($"{player.Name!} whispers, {whisper} to you.[CR]", target);
+        AddMessage($"{player.Name!} whispers, {whisper}[CR]", target);
         return Response;
     }
 }
