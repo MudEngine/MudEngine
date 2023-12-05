@@ -23,6 +23,7 @@ public class Look : BaseCommand, ICommand
         switch (entityDetails.EntityType)
         {
             case EntityType.Room:
+                var thisPlayer = ThisPlayer();
                 AddMessage($"[YELLOW]{entityDetails.Name}[RESET][CR]");
                 if (!string.IsNullOrWhiteSpace(entityDetails.Description))
                 {
@@ -44,7 +45,7 @@ public class Look : BaseCommand, ICommand
                             $"[GREEN]There are {obviousExits.Length} obvious exits: {FormatArray(obviousExits)}[RESET][CR]");
                         break;
                 }
-                var living = entityDetails.Entities.Where(e => e.IsLiving)
+                var living = entityDetails.Entities.Where(e => e.IsLiving && e.EntityId != thisPlayer.EntityId)
                     .Select(e => "[RED][BOLD]" + e.Name! + "[RESET]").ToArray();
                 if (living.Length > 0)
                 {

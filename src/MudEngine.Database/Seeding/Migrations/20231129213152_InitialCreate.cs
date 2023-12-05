@@ -319,7 +319,7 @@ namespace MudEngine.Database.Seeding.Migrations
                     EntityId = table.Column<int>(type: "int", nullable: false),
                     OnNewConnectionCommandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LoginScreen = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
-                    MessageOfTheDay = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true)
+                    News = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true)
                 },
                 constraints: table =>
                 {
