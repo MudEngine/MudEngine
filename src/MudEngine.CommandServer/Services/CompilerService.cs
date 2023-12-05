@@ -5,8 +5,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using MudEngine.CommandServer.Compiler;
-using MudEngine.Database.Interfaces;
 using MudEngine.Library.System;
+using IDatabaseRepository = MudEngine.Library.Interfaces.IDatabaseRepository;
 namespace MudEngine.CommandServer.Services;
 
 public class CompilerService

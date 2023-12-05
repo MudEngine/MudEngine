@@ -1,4 +1,4 @@
-﻿using MudEngine.Database.DataTransferObjects.System;
+﻿using MudEngine.Library.Domain.System;
 namespace MudEngine.Library.System;
 
 public class FollowOnCommand : CommandRequestDto

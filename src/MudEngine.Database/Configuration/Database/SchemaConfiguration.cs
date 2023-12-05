@@ -45,7 +45,7 @@ public static class SchemaConfiguration
             return;
         }
         var enumName = "[" +
-                       enumType.FullName[(enumType.FullName.LastIndexOf("Enums.", StringComparison.Ordinal) + 6)..]
+                       enumType.FullName[(enumType.FullName.LastIndexOf("Domain.", StringComparison.Ordinal) + 7)..]
                            .Replace(".", "].[") + "]";
         try
         {
