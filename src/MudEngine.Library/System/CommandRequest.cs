@@ -1,5 +1,5 @@
-﻿using MudEngine.Database.DataTransferObjects.System;
-using MudEngine.Database.Interfaces;
+﻿using MudEngine.Library.Domain.System;
+using IDatabaseRepository = MudEngine.Library.Interfaces.IDatabaseRepository;
 namespace MudEngine.Library.System;
 
 public class CommandRequest : CommandRequestDto

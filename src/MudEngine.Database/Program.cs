@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MudEngine.Database.Configuration.Database;
 using MudEngine.Database.Seeding.Models;
+using MudEngine.Library.System;
 using Serilog;
 using Serilog.Events;
-using Assembly = System.Reflection.Assembly;
-using EntityType = MudEngine.Database.DataTransferObjects.Enums.Enum.EntityType;
 namespace MudEngine.Database;
 
 internal static class Program
@@ -52,10 +52,10 @@ internal static class Program
             Log.Warning("Migration complete.");
             Log.Warning("Seeding stored procedures...");
             host.Seed("StoredProcedures");
-            foreach (var dtoEnum in Assembly.GetAssembly(typeof(EntityType))!
+            foreach (var dtoEnum in Assembly.GetAssembly(typeof(BaseCommand))!
                          .GetTypes()
                          .Where(t => t.IsEnum && t.Namespace!
-                             .Contains("DataTransferObjects.Enums"))
+                             .Contains("Domain.Enum"))
                          .ToList())
             {
                 host.SeedEnum(dtoEnum);

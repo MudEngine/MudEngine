@@ -1,4 +1,4 @@
-﻿using MudEngine.Database.DataTransferObjects.Base;
+﻿using MudEngine.Library.Domain.Base;
 using MudEngine.Library.System;
 namespace MudEngine.Library.Commands.Basic;
 
@@ -15,7 +15,7 @@ public class Say : BaseCommand, ICommand
             return Response;
         }
         var player = ThisPlayer();
-        EntityDto? target = null;
+        Entity? target = null;
         if (arguments.Contains(" to ", StringComparison.OrdinalIgnoreCase))
         {
             var possibleTarget = arguments[(arguments.LastIndexOf(" to ", StringComparison.OrdinalIgnoreCase) + 3)..];

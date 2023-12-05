@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using MudEngine.Database.DataTransferObjects.System;
+using MudEngine.Library.Domain.System;
 namespace MudEngine.Library.System;
 
 public class CommandResponseMessage(Guid connectionId, ClientMessageType messageType, string text)

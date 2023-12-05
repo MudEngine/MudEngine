@@ -3,12 +3,12 @@ using System.Reflection;
 using System.Text.Json;
 using Grpc.Core;
 using MudEngine.CommandServer.Compiler;
-using MudEngine.Database.DataTransferObjects.System;
-using MudEngine.Database.Interfaces;
+using MudEngine.Library.Domain.System;
 using MudEngine.Library.System;
 using MudEngine.Proto;
 using ClientMessageType = MudEngine.Proto.ClientMessageType;
 using CommandResponseMessage = MudEngine.Proto.CommandResponseMessage;
+using IDatabaseRepository = MudEngine.Library.Interfaces.IDatabaseRepository;
 namespace MudEngine.CommandServer.Services.CommandHandling;
 
 public class CommandEngine(ILogger<CommandEngine> _logger,

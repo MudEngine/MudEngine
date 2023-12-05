@@ -1,4 +1,4 @@
-﻿using MudEngine.Database.DataTransferObjects.Enums.Enum;
+﻿using MudEngine.Library.Domain.Enum;
 using MudEngine.Library.System;
 namespace MudEngine.Library.Commands.Basic;
 

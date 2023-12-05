@@ -8,10 +8,10 @@ using MudEngine.CommandServer.Configuration.Hub;
 using MudEngine.CommandServer.Configuration.Logging;
 using MudEngine.CommandServer.Services;
 using MudEngine.CommandServer.Services.CommandHandling;
-using MudEngine.Database.Interfaces;
-using MudEngine.Database.Repositories;
 using Serilog;
 using Serilog.Events;
+using DatabaseRepository = MudEngine.Library.Repositories.DatabaseRepository;
+using IDatabaseRepository = MudEngine.Library.Interfaces.IDatabaseRepository;
 namespace MudEngine.CommandServer;
 
 internal static class Program

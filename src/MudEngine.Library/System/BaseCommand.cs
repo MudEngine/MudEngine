@@ -1,9 +1,9 @@
-﻿using MudEngine.Database.DataTransferObjects.Base;
-using MudEngine.Database.DataTransferObjects.Mud;
-using MudEngine.Database.DataTransferObjects.System;
-using MudEngine.Database.DataTransferObjects.Transient;
-using MudEngine.Database.Interfaces;
+﻿using MudEngine.Library.Domain.Base;
+using MudEngine.Library.Domain.Mud;
+using MudEngine.Library.Domain.System;
+using MudEngine.Library.Domain.Transient;
 using MudEngine.Library.System.PartOfSpeechTagging;
+using IDatabaseRepository = MudEngine.Library.Interfaces.IDatabaseRepository;
 namespace MudEngine.Library.System;
 
 public abstract class BaseCommand
@@ -48,7 +48,7 @@ public abstract class BaseCommand
         }
         Response.FollowOnCommands.Add(new FollowOnCommand(commandId, _connectionId, commandLine ?? string.Empty));
     }
-    protected void AddMessage(string text, EntityDto target)
+    protected void AddMessage(string text, Entity target)
     {
         AddMessage(target.ConnectionId, ClientMessageType.User, text);
     }
@@ -56,7 +56,7 @@ public abstract class BaseCommand
     {
         AddMessage(_connectionId, ClientMessageType.User, text);
     }
-    protected void AddMessage(string text, IEnumerable<EntityDto> entities, IEnumerable<EntityDto> exceptions)
+    protected void AddMessage(string text, IEnumerable<Entity> entities, IEnumerable<Entity> exceptions)
     {
         foreach (var connectionId in entities.Select(e=>e.ConnectionId)
                      .Except(exceptions.Select(e=>e.ConnectionId)))
@@ -64,7 +64,7 @@ public abstract class BaseCommand
             AddMessage(connectionId, ClientMessageType.User, text);
         }
     }
-    protected void AddMessage(string text, IEnumerable<EntityDto> entities, EntityDto exception)
+    protected void AddMessage(string text, IEnumerable<Entity> entities, Entity exception)
     {
         foreach (var entity in entities.Where(e => e.EntityId != exception.EntityId))
         {
@@ -170,7 +170,7 @@ public abstract class BaseCommand
             ? new GetEntityDetailsResponseDto()
             : _databaseRepository.GetEntityDetails(entityId, _token).GetAwaiter().GetResult();
     }
-    protected IEnumerable<EntityDto> GetLivingInRoom(PlayerDto entity)
+    protected IEnumerable<Entity> GetLivingInRoom(Player entity)
     {
         return _databaseRepository.GetLivingInRoom(entity.RoomId, _token).GetAwaiter().GetResult();
     }
@@ -178,7 +178,7 @@ public abstract class BaseCommand
     {
         return _databaseRepository.GetPlayerAliases(playerId, _token).GetAwaiter().GetResult();
     }
-    protected PlayerDto GetPlayerByName(string playerName)
+    protected Player GetPlayerByName(string playerName)
     {
         return _databaseRepository.GetPlayerByName(playerName, _token).GetAwaiter().GetResult();
     }
@@ -312,7 +312,7 @@ public abstract class BaseCommand
             DestinationRoomId = destinationRoomId
         }, _token).GetAwaiter().GetResult();
     }
-    protected PlayerDto ThisPlayer()
+    protected Player ThisPlayer()
     {
         return _databaseRepository.GetConnectionPlayer(_connectionId, _token).GetAwaiter().GetResult();
     }
