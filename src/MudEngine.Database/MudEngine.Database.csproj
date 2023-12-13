@@ -108,7 +108,4 @@
     <Folder Include="Seeding\Models\" />
     <Folder Include="Seeding\Migrations\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MudEngine.Library\MudEngine.Library.csproj" />
-  </ItemGroup>
 </Project>

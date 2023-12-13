@@ -44,9 +44,9 @@ public static class SchemaConfiguration
         {
             return;
         }
-        var enumName = "[" +
-                       enumType.FullName[(enumType.FullName.LastIndexOf("Domain.", StringComparison.Ordinal) + 7)..]
-                           .Replace(".", "].[") + "]";
+        var enumName =
+            $"[{string.Join("].[", enumType.FullName.Split('.', StringSplitOptions.RemoveEmptyEntries).TakeLast(2))}]"
+                .Replace("[Enums]", "[Enum]");
         try
         {
             Log.Warning("Seeding Enum: {enumName}", enumName);
